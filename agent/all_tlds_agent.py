@@ -23,7 +23,7 @@ STORAGE_NAME = 'agent_all_tlds_storage'
 
 
 class AllTldsAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
-    """Hello world agent."""
+    """All TLDs agent."""
 
     def __init__(self,
                  agent_definition: agent_definitions.AgentDefinition,

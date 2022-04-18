@@ -1,4 +1,4 @@
-"""Pytest fixtures for the Subfinder agent"""
+"""Pytest fixtures for the All TLDs agent"""
 import random
 
 import pytest

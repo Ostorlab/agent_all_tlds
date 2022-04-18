@@ -57,13 +57,13 @@ def _generate_tlds(tlds) -> Iterator[str]:
         yield from _get_child_tlds('', node)
 
 
-def _get_child_tlds(tld, node) -> Iterator[str]:
+def _get_child_tlds(partial_tld, node) -> Iterator[str]:
     """Recursive implementation to compose TLDs with their children."""
     for c_tld, c_node in node.children.items():
         if c_tld == '*':
-            yield tld
+            yield partial_tld
         else:
-            new_tld = f'.{c_tld}{tld}'
+            new_tld = f'.{c_tld}{partial_tld}'
             if c_node.leaf is True:
                 yield new_tld
             else:

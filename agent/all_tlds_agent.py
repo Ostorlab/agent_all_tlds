@@ -66,7 +66,8 @@ def _get_child_tlds(partial_tld, node) -> Iterator[str]:
     """Recursive implementation to compose TLDs with their children."""
     for c_tld, c_node in node.children.items():
         if c_tld == '*':
-            yield partial_tld
+            # * TLD expect an extra string representing the TLD. This will not brute force them, so we ignore them.
+            pass
         else:
             new_tld = f'.{c_tld}{partial_tld}'
             if c_node.leaf is True:

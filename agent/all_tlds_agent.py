@@ -41,10 +41,15 @@ class AllTldsAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         Returns:
             None
         """
-        domain_tld = tld.get_tld(message.data.get('name'), fix_protocol=True, as_object=True, fail_silently=True)
-        if self.set_add(STORAGE_NAME, domain_tld.domain) is False:
+        name = message.data.get('name')
+        if name is None:
             return
 
+        logger.info('processing name %s', name)
+        domain_tld = tld.get_tld(name, fix_protocol=True, as_object=True, fail_silently=True)
+        if self.set_add(STORAGE_NAME, domain_tld.domain) is False:
+            return
+        logger.info('generating tlds for %s', name)
         tlds = tld.get_tld_names()
         for t in _generate_tlds(tlds):
             self.emit('v3.asset.domain_name', {'name': f'{domain_tld.domain}{t}'})

@@ -28,3 +28,13 @@ def testAgentAllTldsAgent_whenDomainSeenForASecondTime_emitsNothing(all_tlds_age
     previously_sent = len(agent_mock)
     all_tlds_agent.process(msg)
     assert len(agent_mock) - previously_sent == 0
+
+
+def testAgentAllTldsAgent_whenAllTheGeneratedMessage_emitsNothing(all_tlds_agent, agent_mock, agent_persist_mock):
+    """Unittest for ensuring a domain is processed only once."""
+    msg = message.Message.from_data(selector='v3.asset.domain_name', data={'name': 'somedomain.com'})
+    all_tlds_agent.process(msg)
+    previously_sent = len(agent_mock)
+    for emitted_message in agent_mock:
+        all_tlds_agent.process(emitted_message)
+    assert len(agent_mock) - previously_sent == 0

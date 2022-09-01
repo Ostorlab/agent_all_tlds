@@ -1,6 +1,6 @@
 kind: Agent
 name: all_tlds
-version: 0.3.2
+version: 0.3.3
 image: images/logo.png
 description: |
   ## Getting Started

@@ -1,6 +1,6 @@
 """Unittests for the AllTlds Agent."""
 
-from ostorlab.agent import message
+from ostorlab.agent.message import message
 
 
 def testAgentAllTldsAgent_whenDomainSeenForFirstTime_emitsAllAllTlds(all_tlds_agent, agent_mock, agent_persist_mock):

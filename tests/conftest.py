@@ -11,7 +11,7 @@ from agent import all_tlds_agent
 
 
 @pytest.fixture(scope="function", name="all_tlds_agent")
-def all_tlds_agent_object():
+def all_tlds_agent_object(agent_persist_mock):
     with (pathlib.Path(__file__).parent.parent / "ostorlab.yaml").open() as yaml_o:
         definition = agent_definitions.AgentDefinition.from_yaml(yaml_o)
         settings = runtime_definitions.AgentSettings(

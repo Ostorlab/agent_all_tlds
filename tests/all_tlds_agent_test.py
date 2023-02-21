@@ -46,7 +46,6 @@ def testAgentAllTldsAgent_whenAllTheGeneratedMessage_emitsNothingInfinite(
     all_tlds_agent, agent_mock, agent_persist_mock
 ):
     """Unittest for ensuring a domain do not generate non ending TLD combinations."""
-    import time
     msg = message.Message.from_data(
         selector="v3.asset.domain_name", data={"name": "somedomain.com"}
     )
@@ -54,5 +53,5 @@ def testAgentAllTldsAgent_whenAllTheGeneratedMessage_emitsNothingInfinite(
     previously_sent = len(agent_mock)
     for emitted_message in agent_mock:
         all_tlds_agent.process(emitted_message)
-    time.sleep(10)
+
     assert len(agent_mock) - previously_sent == 0

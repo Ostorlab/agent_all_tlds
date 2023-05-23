@@ -1,14 +1,14 @@
 """All TLDs agent implementation"""
 import logging
-from rich import logging as rich_logging
+from typing import Iterator
 
 import tld
-from typing import Iterator
 from ostorlab.agent import agent
+from ostorlab.agent import definitions as agent_definitions
 from ostorlab.agent.message import message as m
 from ostorlab.agent.mixins import agent_persist_mixin
-from ostorlab.agent import definitions as agent_definitions
 from ostorlab.runtimes import definitions as runtime_definitions
+from rich import logging as rich_logging
 
 logging.basicConfig(
     format="%(message)s",

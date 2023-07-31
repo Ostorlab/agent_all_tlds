@@ -50,6 +50,9 @@ class AllTldsAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         domain_tld = tld.get_tld(
             name, fix_protocol=True, as_object=True, fail_silently=True
         )
+        if domain_tld is None:
+            logger.warning("Failed to get TLD for: %s", name)
+            return
         if self.set_add(STORAGE_NAME, domain_tld.domain) is False:
             return
         logger.info("generating tlds for %s", name)

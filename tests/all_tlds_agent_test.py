@@ -55,3 +55,16 @@ def testAgentAllTldsAgent_whenAllTheGeneratedMessage_emitsNothingInfinite(
         all_tlds_agent.process(emitted_message)
 
     assert len(agent_mock) - previously_sent == 0
+
+
+def testAgentAllTldsAgent_whenDomainHasNoTLD_emitsNothing(
+    all_tlds_agent, agent_mock, agent_persist_mock
+):
+    """Unittest for ensuring a domain is processed only once."""
+    msg = message.Message.from_data(
+        selector="v3.asset.domain_name", data={"name": "localhost"}
+    )
+
+    all_tlds_agent.process(msg)
+
+    assert len(agent_mock) == 0

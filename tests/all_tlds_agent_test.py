@@ -64,6 +64,7 @@ def testAgentAllTldsAgent_whenDomainHasNoTLD_emitsNothing(
     msg = message.Message.from_data(
         selector="v3.asset.domain_name", data={"name": "localhost"}
     )
+
     all_tlds_agent.process(msg)
 
     assert len(agent_mock) == 0

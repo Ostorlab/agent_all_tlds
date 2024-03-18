@@ -1,4 +1,5 @@
 """Pytest fixtures for the All TLDs agent"""
+
 import random
 
 import pytest

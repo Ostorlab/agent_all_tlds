@@ -1,4 +1,5 @@
 """All TLDs agent implementation"""
+
 import logging
 from typing import Iterator
 

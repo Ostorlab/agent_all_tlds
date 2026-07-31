@@ -1,7 +1,7 @@
 """All TLDs agent implementation"""
 
 import logging
-from typing import Iterator
+from collections.abc import Iterator
 
 import tld
 from ostorlab.agent import agent
@@ -75,9 +75,11 @@ def _get_child_tlds(partial_tld, node) -> Iterator[str]:
         if c_tld == "*":
             # * TLD expect an extra string representing the TLD. This will not brute force them, so we ignore them.
             pass
-        elif c_node.children is not None and "*" in c_node.children:
-            pass
-        elif c_node.private is True:
+        elif (
+            c_node.children is not None
+            and "*" in c_node.children
+            or c_node.private is True
+        ):
             pass
         else:
             new_tld = f".{c_tld}{partial_tld}"

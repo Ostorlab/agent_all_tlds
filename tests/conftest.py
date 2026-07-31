@@ -1,10 +1,9 @@
 """Pytest fixtures for the All TLDs agent"""
 
+import pathlib
 import random
 
 import pytest
-import pathlib
-
 from ostorlab.agent import definitions as agent_definitions
 from ostorlab.runtimes import definitions as runtime_definitions
 

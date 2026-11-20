@@ -50,5 +50,10 @@ in_selectors:
   - v3.asset.domain_name
 out_selectors:
   - v3.asset.domain_name
+args:
+  - name: "dns_resolvers"
+    type: "array"
+    description: "DNS resolvers asked whether each TLD variant is registered (NS query); a variant they report as non-existent (NXDOMAIN) is not emitted."
+    value: ["8.8.8.8", "1.1.1.1"]
 docker_file_path : Dockerfile
 docker_build_root : .

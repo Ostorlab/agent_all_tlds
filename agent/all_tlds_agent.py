@@ -26,7 +26,6 @@ logger = logging.getLogger(__name__)
 STORAGE_NAME = "agent_all_tlds_storage"
 MAX_CONCURRENT_DNS_QUERIES = 20
 DNS_QUERY_TIMEOUT_SECONDS = 5.0
-DNS_RESOLVERS = ["8.8.8.8", "1.1.1.1"]
 
 
 class AllTldsAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
@@ -39,6 +38,7 @@ class AllTldsAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
     ) -> None:
         agent.Agent.__init__(self, agent_definition, agent_settings)
         agent_persist_mixin.AgentPersistMixin.__init__(self, agent_settings)
+        self._dns_resolvers: list[str] = self.args.get("dns_resolvers", [])
 
     def process(self, message: m.Message) -> None:
         """Generates all possible TLD iteration of a source domain.
@@ -65,7 +65,7 @@ class AllTldsAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         logger.info("generating tlds for %s", name)
         tlds = tld.get_tld_names()
         domain_names = [f"{domain_tld.domain}{t}" for t in _generate_tlds(tlds=tlds)]
-        checker = RegistrationChecker()
+        checker = RegistrationChecker(nameservers=self._dns_resolvers)
         with futures.ThreadPoolExecutor(
             max_workers=MAX_CONCURRENT_DNS_QUERIES
         ) as executor:
@@ -94,9 +94,14 @@ class AllTldsAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
 class RegistrationChecker:
     """Checks in DNS whether a domain name is registered."""
 
-    def __init__(self) -> None:
+    def __init__(self, nameservers: list[str]) -> None:
+        """Builds a resolver that only asks the given DNS servers.
+
+        Args:
+            nameservers: IP addresses of the DNS resolvers to ask.
+        """
         self._resolver = dns_resolver.Resolver(configure=False)
-        self._resolver.nameservers = DNS_RESOLVERS
+        self._resolver.nameservers = nameservers
         self._resolver.lifetime = DNS_QUERY_TIMEOUT_SECONDS
 
     def is_registered(self, domain_name: str) -> bool:
